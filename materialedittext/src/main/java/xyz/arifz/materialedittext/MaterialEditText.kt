@@ -1,19 +1,20 @@
 package xyz.arifz.materialedittext
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
+import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class MaterialEditText : ConstraintLayout {
+class MaterialEditText : TextInputLayout {
 
-    private lateinit var textInputLayout: TextInputLayout
+    init {
+        setTheme()
+    }
+
     private lateinit var textInputEditText: TextInputEditText
 
     constructor(context: Context) : super(context) {
@@ -31,7 +32,6 @@ class MaterialEditText : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
-        R.style.TextInputLayoutStyle,
         defStyle
     ) {
         init(context, attrs, R.style.TextInputLayoutStyle)
@@ -42,21 +42,20 @@ class MaterialEditText : ConstraintLayout {
         setupAttributes(context, attrs)
     }
 
+    private fun setTheme() {
+        boxBackgroundColor = ContextCompat.getColor(context, R.color.color_white)
+        boxBackgroundMode = BOX_BACKGROUND_OUTLINE
+        boxStrokeWidth = 1
+        boxStrokeWidthFocused = 1
+        boxStrokeColor = ContextCompat.getColor(context, R.color.color_blue_crayola)
+        setHintTextAppearance(R.style.TextInputLayoutHintTextStyle)
+//        setBoxCornerRadii(5f,5f,5f,5f)
+    }
+
     private fun setupView(context: Context) {
-        textInputLayout = TextInputLayout(context)
         textInputEditText = TextInputEditText(context)
 
-        val set = ConstraintSet()
-        textInputLayout.id = View.generateViewId()
-        textInputLayout.layoutParams =
-            LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        addView(textInputLayout)
-        set.clone(this)
-        set.connect(textInputLayout.id, ConstraintSet.START, this.id, ConstraintSet.START, 20)
-        set.connect(textInputLayout.id, ConstraintSet.END, this.id, ConstraintSet.END, 20)
-        set.applyTo(this)
-
-        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+        textInputEditText.layoutParams = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
@@ -64,7 +63,9 @@ class MaterialEditText : ConstraintLayout {
         textInputEditText.setLines(1)
         textInputEditText.maxLines = 1
         textInputEditText.isSingleLine = true
-        textInputLayout.addView(textInputEditText)
+        textInputEditText.imeOptions = EditorInfo.IME_ACTION_DONE
+        addView(textInputEditText)
+        textInputEditText.setPadding(20, 20, 20, 20)
     }
 
     private fun setupAttributes(context: Context, attrs: AttributeSet?) {
@@ -77,8 +78,15 @@ class MaterialEditText : ConstraintLayout {
                     if (hint.isNullOrEmpty())
                         hint = ""
                     hint += " *"
-                    textInputLayout.hint = hint
-                } else textInputLayout.hint = hint
+                    this.hint = hint
+                } else this.hint = hint
+
+                val isReadOnly = a.getBoolean(R.styleable.MaterialEditText_isReadOnly, false)
+                setReadOnly(isReadOnly)
+
+                val radius = a.getFloat(R.styleable.MaterialEditText_radius, 5f)
+
+                setCustomPadding(radius)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -86,5 +94,36 @@ class MaterialEditText : ConstraintLayout {
         }
     }
 
+    private fun setCustomPadding(radius: Float) {
+        setBoxCornerRadii(radius, radius, radius, radius)
+    }
+
+    private fun setReadOnly(state: Boolean) {
+        if (state) {
+            this.isClickable = false
+            this.isFocusable = false
+            this.isFocusableInTouchMode = false
+            this.textInputEditText.isCursorVisible = false
+            this.textInputEditText.isClickable = false
+            this.textInputEditText.isFocusable = false
+            this.textInputEditText.isFocusableInTouchMode = false
+            setReadOnlyColor()
+        }
+    }
+
+    private fun setReadOnlyColor() {
+        val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_enabled, android.R.attr.state_enabled)
+            ),
+            intArrayOf(
+                ContextCompat.getColor(context, R.color.color_light_grey),
+                ContextCompat.getColor(context, R.color.color_light_grey)
+            )
+        )
+        setBoxStrokeColorStateList(colorStateList)
+        boxBackgroundColor = ContextCompat.getColor(context, R.color.color_white)
+        editText?.setTextColor(ContextCompat.getColor(context, R.color.color_light_grey))
+    }
 
 }
