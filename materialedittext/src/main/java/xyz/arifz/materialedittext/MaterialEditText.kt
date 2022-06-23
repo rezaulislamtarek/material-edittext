@@ -2,6 +2,7 @@ package xyz.arifz.materialedittext
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.text.Editable
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -125,5 +126,13 @@ class MaterialEditText : TextInputLayout {
         boxBackgroundColor = ContextCompat.getColor(context, R.color.color_white)
         editText?.setTextColor(ContextCompat.getColor(context, R.color.color_light_grey))
     }
+
+    var text: Editable?
+        set(value) {
+            textInputEditText.text = value
+        }
+        get() {
+            return textInputEditText.text
+        }
 
 }
