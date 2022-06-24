@@ -3,6 +3,7 @@ package xyz.arifz.materialedittext
 import android.content.Context
 import android.content.res.ColorStateList
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.ViewGroup
@@ -129,14 +130,6 @@ class MaterialEditText : TextInputLayout {
         editText?.setTextColor(ContextCompat.getColor(context, R.color.color_light_grey))
     }
 
-    var text: Editable?
-        set(value) {
-            textInputEditText.text = value
-        }
-        get() {
-            return textInputEditText.text
-        }
-
     private fun initWatchers() {
         textInputEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -149,4 +142,28 @@ class MaterialEditText : TextInputLayout {
 
         })
     }
+
+    var text: Editable?
+        set(value) {
+            textInputEditText.text = value
+        }
+        get() {
+            return textInputEditText.text
+        }
+
+    var filter: InputFilter?
+        get() {
+            return textInputEditText.filters?.get(0)
+        }
+        set(value) {
+            textInputEditText.filters = arrayOf(value)
+        }
+
+    var inputType: Int
+        get() {
+            return textInputEditText.inputType
+        }
+        set(value) {
+            textInputEditText.inputType = value
+        }
 }

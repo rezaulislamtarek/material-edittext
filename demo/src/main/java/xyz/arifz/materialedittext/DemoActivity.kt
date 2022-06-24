@@ -16,7 +16,11 @@ class DemoActivity : AppCompatActivity() {
 //        binding.met.text = null
 //
 //        binding.btn.setOnClickListener {
-//            val txt = binding.met.text
-//            Toast.makeText(this, txt?: "empty", Toast.LENGTH_SHORT).show() }
+//            val txt = binding.met.text?.toString()
+//            if (txt.isNullOrEmpty())
+//                binding.met.error = "Empty fields"
+//            else
+//                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
+//        }
     }
 }
