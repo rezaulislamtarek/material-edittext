@@ -3,6 +3,7 @@ package xyz.arifz.materialedittext
 import android.content.Context
 import android.content.res.ColorStateList
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -41,6 +42,7 @@ class MaterialEditText : TextInputLayout {
     private fun init(context: Context, attrs: AttributeSet?, defStyle: Int) {
         setupView(context)
         setupAttributes(context, attrs)
+        initWatchers()
     }
 
     private fun setTheme() {
@@ -135,4 +137,16 @@ class MaterialEditText : TextInputLayout {
             return textInputEditText.text
         }
 
+    private fun initWatchers() {
+        textInputEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                isErrorEnabled = false
+            }
+
+        })
+    }
 }
