@@ -62,7 +62,7 @@ class MaterialEditText : TextInputLayout {
 
         textInputEditText.layoutParams = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            48.dpToPx()
+            50.dpToPx()
         )
         textInputEditText.background = null
         textInputEditText.setLines(1)
