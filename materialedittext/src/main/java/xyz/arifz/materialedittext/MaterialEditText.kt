@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import xyz.arifz.materialedittext.ExtensionFunctions.dpToPx
 
 class MaterialEditText : TextInputLayout {
 
@@ -49,8 +50,8 @@ class MaterialEditText : TextInputLayout {
     private fun setTheme() {
         boxBackgroundColor = ContextCompat.getColor(context, R.color.color_white)
         boxBackgroundMode = BOX_BACKGROUND_OUTLINE
-        boxStrokeWidth = 1
-        boxStrokeWidthFocused = 1
+        boxStrokeWidth = 2
+        boxStrokeWidthFocused = 2
         boxStrokeColor = ContextCompat.getColor(context, R.color.color_blue_crayola)
         setHintTextAppearance(R.style.TextInputLayoutHintTextStyle)
 //        setBoxCornerRadii(5f,5f,5f,5f)
@@ -61,15 +62,15 @@ class MaterialEditText : TextInputLayout {
 
         textInputEditText.layoutParams = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
+            48.dpToPx()
         )
         textInputEditText.background = null
         textInputEditText.setLines(1)
         textInputEditText.maxLines = 1
         textInputEditText.isSingleLine = true
         textInputEditText.imeOptions = EditorInfo.IME_ACTION_DONE
-        addView(textInputEditText)
         textInputEditText.setPadding(20, 20, 20, 20)
+        addView(textInputEditText)
     }
 
     private fun setupAttributes(context: Context, attrs: AttributeSet?) {
