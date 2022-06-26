@@ -169,6 +169,6 @@ class MaterialEditText : TextInputLayout {
         }
 
     fun addTextChangedListener(watcher: TextWatcher) {
-        addTextChangedListener(watcher)
+        textInputEditText.addTextChangedListener(watcher)
     }
 }
