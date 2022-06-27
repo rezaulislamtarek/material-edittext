@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".DemoActivity">
 
-<!--    <xyz.arifz.materialedittext.MaterialEditText
+    <xyz.arifz.materialedittext.MaterialEditText
         android:id="@+id/met"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +32,6 @@
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />-->
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

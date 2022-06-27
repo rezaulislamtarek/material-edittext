@@ -13,7 +13,6 @@ class DemoActivity : AppCompatActivity() {
         binding = ActivityDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
         binding.met.text = null
 
         binding.btn.setOnClickListener {
@@ -23,6 +22,6 @@ class DemoActivity : AppCompatActivity() {
             else
                 Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
         }
-        */
     }
+    
 }

@@ -190,7 +190,8 @@ class MaterialEditText : TextInputLayout {
 
     var text: String?
         set(value) {
-            textInputEditText.text = Editable.Factory.getInstance().newEditable(value)
+            if (!value.isNullOrEmpty())
+                textInputEditText.text = Editable.Factory.getInstance().newEditable(value)
         }
         get() {
             return textInputEditText.text?.toString()
