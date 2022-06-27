@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.text.Editable
 import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
@@ -48,22 +50,36 @@ class MaterialEditText : TextInputLayout {
     }
 
     private fun setTheme() {
+       /* val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_focused, android.R.attr.state_pressed),
+            ),
+            intArrayOf(
+                ContextCompat.getColor(context, R.color.color_light_grey),
+                ContextCompat.getColor(context, R.color.color_blue_crayola)
+            )
+        )*/
         boxBackgroundColor = ContextCompat.getColor(context, R.color.color_white)
         boxBackgroundMode = BOX_BACKGROUND_OUTLINE
-        boxStrokeWidth = 2
-        boxStrokeWidthFocused = 2
+        boxStrokeWidth = 3
+        boxStrokeWidthFocused = 3
         boxStrokeColor = ContextCompat.getColor(context, R.color.color_blue_crayola)
+        setBoxStrokeColorStateList(ContextCompat.getColorStateList(context,R.color.colorset_box_stroke)!!)
         setHintTextAppearance(R.style.TextInputLayoutHintTextStyle)
 //        setBoxCornerRadii(5f,5f,5f,5f)
     }
 
     private fun setupView(context: Context) {
+
+
+
         textInputEditText = TextInputEditText(context)
 
         textInputEditText.layoutParams = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            50.dpToPx()
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
+
         textInputEditText.background = null
         textInputEditText.setLines(1)
         textInputEditText.maxLines = 1
@@ -89,9 +105,11 @@ class MaterialEditText : TextInputLayout {
                 val isReadOnly = a.getBoolean(R.styleable.MaterialEditText_isReadOnly, false)
                 setReadOnly(isReadOnly)
 
-                val radius = a.getFloat(R.styleable.MaterialEditText_radius, 5f)
-
-                setCustomPadding(radius)
+                val radius = a.getFloat(R.styleable.MaterialEditText_radius, 10f)
+                setCornerRadius(radius)
+                setEditTextType(a.getInt(R.styleable.MaterialEditText_inputType, 2))
+                setMaxLines(a.getInt(R.styleable.MaterialEditText_maxLines, -1))
+                setIsHintFloating(a.getBoolean(R.styleable.MaterialEditText_isHintFloating, true))
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -99,7 +117,37 @@ class MaterialEditText : TextInputLayout {
         }
     }
 
-    private fun setCustomPadding(radius: Float) {
+    private fun setIsHintFloating(status: Boolean) {
+        if (!status) {
+            textInputEditText.hint = hint
+            hint = ""
+        }
+    }
+
+    private fun setEditTextType(type: Int) {
+        when (type) {
+            InputTypeEnum.DIGIT.value -> {
+                inputType = InputType.TYPE_CLASS_NUMBER
+            }
+            InputTypeEnum.NAME.value -> {
+                rawInputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
+            }
+            InputTypeEnum.ADDRESS.value -> {
+                rawInputType = InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
+            }
+            InputTypeEnum.EMAIL.value -> {
+                rawInputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            }
+            InputTypeEnum.PHONE.value -> {
+                inputType = InputType.TYPE_CLASS_PHONE
+            }
+            InputTypeEnum.PASSWORD.value -> {
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+        }
+    }
+
+    private fun setCornerRadius(radius: Float) {
         setBoxCornerRadii(radius, radius, radius, radius)
     }
 
@@ -168,7 +216,40 @@ class MaterialEditText : TextInputLayout {
             textInputEditText.inputType = value
         }
 
+    var rawInputType: Int
+        get() {
+            return textInputEditText.inputType
+        }
+        set(value) {
+            textInputEditText.setRawInputType(value)
+        }
+
+
+    fun setMaxLines(maxLines: Int) {
+        if (maxLines <= 1) {
+            textInputEditText.layoutParams = android.widget.FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                50.dpToPx()
+            )
+            return
+        }
+        textInputEditText.gravity = Gravity.START
+        textInputEditText.setLines(maxLines)
+        textInputEditText.isSingleLine = false
+        textInputEditText.maxLines = maxLines
+    }
+
+
     fun addTextChangedListener(watcher: TextWatcher) {
         textInputEditText.addTextChangedListener(watcher)
+    }
+
+    enum class InputTypeEnum(val value: Int) {
+        DIGIT(0),
+        NAME(1),
+        ADDRESS(2),
+        EMAIL(3),
+        PHONE(4),
+        PASSWORD(5);
     }
 }
