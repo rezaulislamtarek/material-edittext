@@ -7,7 +7,6 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
@@ -66,6 +65,7 @@ class MaterialEditText : TextInputLayout {
             ViewGroup.LayoutParams.MATCH_PARENT,
             50.dpToPx()
         )
+
         textInputEditText.background = null
         textInputEditText.setLines(1)
         textInputEditText.maxLines = 1
@@ -94,6 +94,8 @@ class MaterialEditText : TextInputLayout {
                 val radius = a.getFloat(R.styleable.MaterialEditText_radius, 5f)
                 setCustomPadding(radius)
                 setEditTextType(a.getInt(R.styleable.MaterialEditText_inputType, 2))
+                setMaxLines(a.getInt(R.styleable.MaterialEditText_maxLines, -1))
+                setIsHintFloating(a.getBoolean(R.styleable.MaterialEditText_isHintFloating, true))
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -101,10 +103,17 @@ class MaterialEditText : TextInputLayout {
         }
     }
 
+    private fun setIsHintFloating(status: Boolean) {
+        if (!status) {
+            textInputEditText.hint = hint
+            hint = ""
+        }
+    }
+
     private fun setEditTextType(type: Int) {
         when (type) {
             InputTypeEnum.DIGIT.value -> {
-                inputType =  InputType.TYPE_CLASS_NUMBER
+                inputType = InputType.TYPE_CLASS_NUMBER
             }
             InputTypeEnum.NAME.value -> {
                 rawInputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
@@ -113,10 +122,10 @@ class MaterialEditText : TextInputLayout {
                 rawInputType = InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
             }
             InputTypeEnum.EMAIL.value -> {
-                rawInputType= InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                rawInputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             }
             InputTypeEnum.PHONE.value -> {
-                inputType=InputType.TYPE_CLASS_PHONE
+                inputType = InputType.TYPE_CLASS_PHONE
             }
             InputTypeEnum.PASSWORD.value -> {
                 inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -200,6 +209,21 @@ class MaterialEditText : TextInputLayout {
         set(value) {
             textInputEditText.setRawInputType(value)
         }
+
+
+    fun setMaxLines(maxLines: Int) {
+        if (maxLines < 1) return
+
+        textInputEditText.layoutParams = android.widget.FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        textInputEditText.setLines(maxLines)
+        textInputEditText.isSingleLine = false
+        textInputEditText.maxLines = maxLines
+    }
+
 
     fun addTextChangedListener(watcher: TextWatcher) {
         textInputEditText.addTextChangedListener(watcher)

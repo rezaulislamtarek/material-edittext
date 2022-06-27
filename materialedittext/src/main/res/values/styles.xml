@@ -13,4 +13,12 @@
         <item name="android:letterSpacing">0</item>
         <item name="android:textColor">@drawable/colorset_box_outline</item>
     </style>
+
+    <style name="TextInputEdiTextStyle" parent="ThemeOverlay.Material3.TextInputEditText">
+       <!-- <item name="boxStrokeColor">@drawable/colorset_box_outline</item>
+        <item name="boxStrokeWidth">@dimen/box_stroke_size_normal</item>
+        <item name="boxStrokeWidthFocused">@dimen/box_stroke_size_focused</item>
+        <item name="hintTextAppearance">@style/TextInputLayoutHintTextStyle</item>-->
+    </style>
+
 </resources>
