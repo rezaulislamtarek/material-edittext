@@ -12,15 +12,15 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//
-//        binding.met.text = null
-//
-//        binding.btn.setOnClickListener {
-//            val txt = binding.met.text?.toString()
-//            if (txt.isNullOrEmpty())
-//                binding.met.error = "Empty fields"
-//            else
-//                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
-//        }
+
+        binding.met.text = null
+
+        binding.btn.setOnClickListener {
+            val txt = binding.met.text?.toString()
+            if (txt.isNullOrEmpty())
+                binding.met.error = "Empty fields"
+            else
+                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
+        }
     }
 }

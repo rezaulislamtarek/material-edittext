@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.text.Editable
 import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
@@ -90,12 +92,35 @@ class MaterialEditText : TextInputLayout {
                 setReadOnly(isReadOnly)
 
                 val radius = a.getFloat(R.styleable.MaterialEditText_radius, 5f)
-
                 setCustomPadding(radius)
+                setEditTextType(a.getInt(R.styleable.MaterialEditText_inputType, 2))
             } catch (e: Exception) {
                 e.printStackTrace()
             }
             a.recycle()
+        }
+    }
+
+    private fun setEditTextType(type: Int) {
+        when (type) {
+            InputTypeEnum.DIGIT.value -> {
+                inputType =  InputType.TYPE_CLASS_NUMBER
+            }
+            InputTypeEnum.NAME.value -> {
+                rawInputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
+            }
+            InputTypeEnum.ADDRESS.value -> {
+                rawInputType = InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
+            }
+            InputTypeEnum.EMAIL.value -> {
+                rawInputType= InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            }
+            InputTypeEnum.PHONE.value -> {
+                inputType=InputType.TYPE_CLASS_PHONE
+            }
+            InputTypeEnum.PASSWORD.value -> {
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
         }
     }
 
@@ -168,7 +193,24 @@ class MaterialEditText : TextInputLayout {
             textInputEditText.inputType = value
         }
 
+    var rawInputType: Int
+        get() {
+            return textInputEditText.inputType
+        }
+        set(value) {
+            textInputEditText.setRawInputType(value)
+        }
+
     fun addTextChangedListener(watcher: TextWatcher) {
         textInputEditText.addTextChangedListener(watcher)
+    }
+
+    enum class InputTypeEnum(val value: Int) {
+        DIGIT(0),
+        NAME(1),
+        ADDRESS(2),
+        EMAIL(3),
+        PHONE(4),
+        PASSWORD(5);
     }
 }
