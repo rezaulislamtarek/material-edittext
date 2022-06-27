@@ -50,29 +50,21 @@ class MaterialEditText : TextInputLayout {
     }
 
     private fun setTheme() {
-       /* val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_focused, android.R.attr.state_pressed),
-            ),
-            intArrayOf(
-                ContextCompat.getColor(context, R.color.color_light_grey),
-                ContextCompat.getColor(context, R.color.color_blue_crayola)
-            )
-        )*/
         boxBackgroundColor = ContextCompat.getColor(context, R.color.color_white)
         boxBackgroundMode = BOX_BACKGROUND_OUTLINE
         boxStrokeWidth = 3
         boxStrokeWidthFocused = 3
         boxStrokeColor = ContextCompat.getColor(context, R.color.color_blue_crayola)
-        setBoxStrokeColorStateList(ContextCompat.getColorStateList(context,R.color.colorset_box_stroke)!!)
+        setBoxStrokeColorStateList(
+            ContextCompat.getColorStateList(
+                context,
+                R.color.colorset_box_stroke
+            )!!
+        )
         setHintTextAppearance(R.style.TextInputLayoutHintTextStyle)
-//        setBoxCornerRadii(5f,5f,5f,5f)
     }
 
     private fun setupView(context: Context) {
-
-
-
         textInputEditText = TextInputEditText(context)
 
         textInputEditText.layoutParams = LayoutParams(
@@ -192,12 +184,16 @@ class MaterialEditText : TextInputLayout {
         })
     }
 
-    var text: Editable?
+    fun setText(str: Editable?) {
+        textInputEditText.text = str
+    }
+
+    var text: String?
         set(value) {
-            textInputEditText.text = value
+            textInputEditText.text = Editable.Factory.getInstance().newEditable(value)
         }
         get() {
-            return textInputEditText.text
+            return textInputEditText.text?.toString()
         }
 
     var filter: InputFilter?
@@ -224,7 +220,6 @@ class MaterialEditText : TextInputLayout {
             textInputEditText.setRawInputType(value)
         }
 
-
     fun setMaxLines(maxLines: Int) {
         if (maxLines <= 1) {
             textInputEditText.layoutParams = android.widget.FrameLayout.LayoutParams(
@@ -239,17 +234,8 @@ class MaterialEditText : TextInputLayout {
         textInputEditText.maxLines = maxLines
     }
 
-
     fun addTextChangedListener(watcher: TextWatcher) {
         textInputEditText.addTextChangedListener(watcher)
     }
 
-    enum class InputTypeEnum(val value: Int) {
-        DIGIT(0),
-        NAME(1),
-        ADDRESS(2),
-        EMAIL(3),
-        PHONE(4),
-        PASSWORD(5);
-    }
 }
