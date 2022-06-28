@@ -1,3 +1,4 @@
+# material-edittext
 
 <!-- TABLE OF CONTENTS -->
 <details>
