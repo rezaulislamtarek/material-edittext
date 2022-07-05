@@ -8,13 +8,13 @@ An EditText inspired by Material Text Fields and packed with useful functionalit
 ## Dependency Add
 Minimum required SDK 21
 
-``` Groovy
+``` Gradle
 
 allprojects {
     repositories {
-		...
-		aven { url 'https://jitpack.io' }
-	}
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
@@ -46,14 +46,14 @@ dependencies {
 
 ## Attributes
 
-* **isRequired**, takes boolean value. Defines if EditText is required.
+* **isRequired**, takes boolean value. Shows required asterisk symble.
 * **isEnabled**, takes boolean value. Enable or Disable user input.
 * **hint**, hint text. also acts as lebel if isHintFloating=true.
-* **isHintFloating**, makes hint text as floating lebel like MaterialEditText Label.
+* **isHintFloating**, makes hint text as floating lebel like MaterialEditText Label. Default value "true".
 * **maxLines**,  takes int value. Enables multiline input.
-* **inputType**,  border radious of input field.
-* **isReadOnly**, Disables input and behaves like a textfield
-* **inputType**. available enums are - digit, name, address, email, phone and password.
+* **radius**,  box stroke radious of input field.
+* **isReadOnly**, disables input and behaves like a textfield.
+* **inputType**, available enums are - digit, name, address, email, phone and password.
 
 ## Thanks
 
