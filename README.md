@@ -18,7 +18,7 @@ allprojects {
 }
 
 dependencies {
-	implementation 'com.github.arifz-xyz:material-edittext:0.0.5-alpha03'
+	implementation 'com.github.arifz-xyz:material-edittext:0.0.5-alpha04'
 }
 
 ```
@@ -53,8 +53,8 @@ dependencies {
 * **maxLines**,  takes int value. Enables multiline input.
 * **radius**,  box stroke radious of input field.
 * **isReadOnly**, disables input and behaves like a textfield.
-* **inputType**, available enums are - digit, name, address, email, phone and password.
+* **inputType**, available enums are - digit, digit_fractional, name, address, email, phone and password.
 
 ## Thanks
 
- * Special Thanks to [Md Arif](https://github.com/arifbd) and [Shakibuzzaman](https://github.com/Shakibuzzaman3104) for their contribution.
+ * Special Thanks to [Md Arif](https://github.com/arifbd), [Shakibuzzaman](https://github.com/Shakibuzzaman3104) and [Tanvir](https://github.com/tanvir-media365) for their contribution.
