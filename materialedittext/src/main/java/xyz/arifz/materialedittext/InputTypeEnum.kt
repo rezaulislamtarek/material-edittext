@@ -6,5 +6,6 @@ enum class InputTypeEnum(val value: Int) {
     ADDRESS(2),
     EMAIL(3),
     PHONE(4),
-    PASSWORD(5);
+    PASSWORD(5),
+    DIGIT_FRACTIONAL(6);
 }

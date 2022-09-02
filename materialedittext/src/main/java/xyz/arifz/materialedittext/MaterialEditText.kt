@@ -136,6 +136,9 @@ class MaterialEditText : TextInputLayout {
             InputTypeEnum.PASSWORD.value -> {
                 inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
+            InputTypeEnum.DIGIT_FRACTIONAL.value -> {
+                inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            }
         }
     }
 
