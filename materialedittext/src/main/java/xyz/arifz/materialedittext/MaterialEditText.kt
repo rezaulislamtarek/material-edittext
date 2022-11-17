@@ -2,6 +2,8 @@ package xyz.arifz.materialedittext
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.fonts.FontFamily
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -11,9 +13,11 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import xyz.arifz.materialedittext.ExtensionFunctions.dpToPx
+import xyz.arifz.materialedittext.ExtensionFunctions.spToPx
 
 class MaterialEditText : TextInputLayout {
 
@@ -78,6 +82,7 @@ class MaterialEditText : TextInputLayout {
         textInputEditText.isSingleLine = true
         textInputEditText.imeOptions = EditorInfo.IME_ACTION_DONE
         textInputEditText.setPadding(20, 20, 20, 20)
+
         addView(textInputEditText)
     }
 
@@ -102,6 +107,17 @@ class MaterialEditText : TextInputLayout {
                 setEditTextType(a.getInt(R.styleable.MaterialEditText_inputType, 2))
                 setMaxLines(a.getInt(R.styleable.MaterialEditText_maxLines, -1))
                 setIsHintFloating(a.getBoolean(R.styleable.MaterialEditText_isHintFloating, true))
+
+                val fontFamily = a.getInt(R.styleable.MaterialEditText_font_Family,1)
+                setHintFontFamily(fontFamily)
+                setTextFontFamily(fontFamily)
+                setTextSize(a.getInt(R.styleable.MaterialEditText_fontSize,8))
+                setBoxWidth(a.getInt(R.styleable.MaterialEditText_boxWidth,2))
+                val textColor = a.getString(R.styleable.MaterialEditText_text_Color)
+                if (textColor != null) {
+                    setTextColor(textColor)
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -245,5 +261,27 @@ class MaterialEditText : TextInputLayout {
     fun getTextInputEditText(): TextInputEditText {
         return textInputEditText
     }
+
+    fun setHintFontFamily(fontFamily: Int) {
+        fontFamily.let { ResourcesCompat.getFont(context, it) }.also { typeface = it }
+    }
+
+    fun setBoxWidth(size: Int) {
+        boxStrokeWidth = size
+        boxStrokeWidthFocused = size
+    }
+
+    fun setTextFontFamily(fontFamily: Int) {
+        textInputEditText.typeface = fontFamily?.let { ResourcesCompat.getFont(context, it) }
+    }
+
+    fun setTextColor(textColorCode: String) {
+        textInputEditText.setTextColor(Color.parseColor(textColorCode))
+    }
+
+    fun setTextSize(fontSizeSp: Int) {
+        fontSizeSp.spToPx().let { textInputEditText.textSize = it.toFloat() }
+    }
+
 
 }
