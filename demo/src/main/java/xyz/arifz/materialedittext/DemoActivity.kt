@@ -13,7 +13,7 @@ class DemoActivity : AppCompatActivity() {
         binding = ActivityDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.met.text = "asd"
+        binding.met.text = "This is a edit text"
         binding.met.apply {
             setTextColor("#FF0000")
             setTextFontFamily(R.font.poppins)
