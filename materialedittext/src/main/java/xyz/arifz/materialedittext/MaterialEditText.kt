@@ -20,12 +20,14 @@ import xyz.arifz.materialedittext.ExtensionFunctions.dpToPx
 import xyz.arifz.materialedittext.ExtensionFunctions.spToPx
 
 class MaterialEditText : TextInputLayout {
-
+    private lateinit var textInputEditText: TextInputEditText
+    private var hintForColor = ""
+    private var isRequired = false
     init {
         setTheme()
     }
 
-    private lateinit var textInputEditText: TextInputEditText
+
 
     constructor(context: Context) : super(context) {
         init(context, null, R.style.TextInputLayoutStyle)
@@ -283,5 +285,15 @@ class MaterialEditText : TextInputLayout {
         fontSizeSp.spToPx().let { textInputEditText.textSize = it.toFloat() }
     }
 
+
+    fun setHintAsteriskColor(color: Int) {
+        val len = hintForColor.length
+        val sb = SpannableStringBuilder(hintForColor)
+        val asteriskColor = ForegroundColorSpan(color)
+        if (len != 0) {
+            sb.setSpan(asteriskColor, len - 1, len, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            super.setHint(sb)
+        }
+    }
 
 }
